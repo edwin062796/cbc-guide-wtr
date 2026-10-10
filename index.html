@@ -1,1 +1,140 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>F11 Curriculum Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f6f8;--surface:#fff;--ink:#17233a;--muted:#5b6880;--rule:#e1e6ee;--accent:#0f5e9c;--accent-soft:#e6f0f9;--ok:#16794f;--ok-soft:#e3f4ec;--note:#fff6dd;--note-ink:#6b4f06;--code:#f1f4f8;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1624;--surface:#18223a;--ink:#e8edf6;--muted:#9aa8c2;--rule:#2a3754;--accent:#6db3ec;--accent-soft:#1d3050;--ok:#5fcf9d;--ok-soft:#173a2e;--note:#3a3115;--note-ink:#f0d68a;--code:#111a2e}}
+:root[data-theme="dark"]{--bg:#0f1624;--surface:#18223a;--ink:#e8edf6;--muted:#9aa8c2;--rule:#2a3754;--accent:#6db3ec;--accent-soft:#1d3050;--ok:#5fcf9d;--ok-soft:#173a2e;--note:#3a3115;--note-ink:#f0d68a;--code:#111a2e}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;margin:0}
+body{font-family:'Public Sans',system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;font-size:16px}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:20px 20px 48px}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-bottom:20px}
+header h1{font-size:1.4rem;font-weight:700;letter-spacing:-.01em}
+header p{color:var(--muted);font-size:.92rem}
+.prog{min-width:220px}
+.prog .t{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted);margin-bottom:6px}
+.bar{height:6px;border-radius:6px;background:var(--rule);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .25s}
+.app{display:grid;grid-template-columns:264px 1fr;gap:20px;align-items:start}
+nav{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:8px;position:sticky;top:calc(12px + env(safe-area-inset-top,0px))}
+nav button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;padding:9px 10px;border-radius:8px;font-size:.92rem;color:var(--muted)}
+nav button:hover{background:var(--bg)}
+nav button[aria-current="step"]{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.dot{flex:none;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--rule);display:grid;place-items:center;font-size:.72rem;font-weight:600;color:var(--muted)}
+nav button[aria-current="step"] .dot{border-color:var(--accent);color:var(--accent)}
+nav button.done .dot{background:var(--ok);border-color:var(--ok);color:#fff}
+main{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:8px 32px}
+section.s{padding:28px 0;border-bottom:1px solid var(--rule);scroll-margin-top:16px}section.s:last-child{border-bottom:0}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+main h2{font-size:1.5rem;letter-spacing:-.01em;line-height:1.25}
+.src{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:14px 0 20px;color:var(--muted);font-size:.92rem}
+.src b{color:var(--ink);font-weight:600}
+.pill{background:var(--accent-soft);color:var(--accent);padding:2px 10px;border-radius:99px;font-size:.82rem;font-weight:600}
+main h3{font-size:.95rem;font-weight:600;margin:22px 0 8px}
+main p,main li{max-width:70ch}
+ul.plain{padding-left:1.1rem}
+ul.plain li{margin:3px 0}
+.ex{background:var(--code);border:1px solid var(--rule);border-radius:10px;padding:14px 16px;font-size:.92rem;margin-top:8px}
+.ex .l{font-size:.82rem;color:var(--muted);margin-bottom:6px;font-weight:600}
+.ex ul{padding-left:1.1rem}
+.tip{background:var(--note);color:var(--note-ink);border-radius:10px;padding:12px 14px;margin-top:20px;font-size:.92rem}
+.tw{overflow-x:auto;margin-top:8px;border:1px solid var(--rule);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:420px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{background:var(--code);font-weight:600;font-size:.85rem}
+tr:last-child td{border-bottom:0}
+td.r,th.r{text-align:right}
+tfoot td{font-weight:700;background:var(--code)}
+.acts{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:20px;flex-wrap:wrap}
+.btn{border:1px solid var(--rule);background:var(--surface);padding:9px 16px;border-radius:8px;font-weight:500}
+.btn:hover{background:var(--bg)}
+.btn.p{background:var(--accent);border-color:var(--accent);color:#fff}
+:root:not([data-theme="dark"]) .btn.p{color:#fff}
+.btn.ok{background:var(--ok-soft);border-color:var(--ok);color:var(--ok);font-weight:600}
+.btn[disabled]{opacity:.4;cursor:default}
+.grp{display:flex;gap:8px}
+footer{margin-top:24px;color:var(--muted);font-size:.85rem;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer b{color:var(--ink)}
+@media (max-width:820px){
+.app{grid-template-columns:1fr}
+nav{position:static;display:flex;overflow-x:auto;gap:4px}
+nav button{width:auto;white-space:nowrap;flex:none}
+main{padding:4px 18px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div>
+    <h1>F11 Curriculum Builder</h1>
+    <p>Build a competency-based curriculum from any Training Regulation.</p>
+  </div>
+  <div class="prog"><div class="t"><span id="pt">0 of 11 steps done</span><button class="btn" id="rs" style="padding:0 8px;font-size:.8rem">Reset</button></div><div class="bar"><i id="pb"></i></div></div>
+</header>
+<div class="app">
+  <nav id="nav" aria-label="Steps"></nav>
+  <main id="main" tabindex="-1"></main>
+</div>
+<footer>
+  <span>Reference: TESDA-OP CO-01-F11 (Competency-Based Curriculum Template) and any Training Regulation (TR).</span>
+  <span>Guide by <b>Edwin G. Pelonio, LPT</b> · TESD Specialist II, TESDA Quezon City</span>
+</footer>
+</div>
+<script>
+var S=[
+{n:"Course title",w:"Cover page or Table of Contents",s:"Section 1",c:"Copy the exact title of the qualification.",ex:["FOOD PRODUCTION (BREAD AND PATISSERIE) NC II"]},
+{n:"Training duration",w:"Nominal Training Duration",s:"Section 3.1 Curriculum Design",c:"Copy the hours for each competency group:",list:["Basic competencies: ___ hours","Common competencies: ___ hours","Core competencies: ___ hours","Elective: ___ hours (if applicable)","Supervised Industry Learning (SIL): ___ hours","Total: ___ hours"],tip:'If there is no Elective, write "N/A".'},
+{n:"Course description",w:"Course Description",s:"Section 3.1 Curriculum Design",c:"Copy the entire Course Description paragraph.",ex:["This course is designed to provide the learner with knowledge, practical skills and attitude, applicable in performing work activities involved in..."]},
+{n:"Trainee entry requirements",w:"Trainee Entry Requirements",s:"Section 3.3",c:"Copy all the requirements.",ex:["1. Must have completed at least Grade 10...","2. Can communicate in basic English...","3. Must be a holder of a Health Certificate..."]},
+{n:"Course structure",w:"Units of Competency and Nominal Duration",s:"Section 2 and 3.1",t:{h:["Item","Where to get it","Section"],r:[["Units of Competency","UC titles","Section 2"],["Elements","Under each UC","Section 2"],["Module title","Verb of the UC, changed to -ing form","—"],["Learning outcomes","Elements of each UC","Section 2"],["Nominal duration","Competency tables","Section 3.1"]]},tip:"The number of learning outcomes equals the number of elements. The module title is the verb of the UC in -ing form."},
+{n:"Resources",w:"List of Tools, Equipment and Materials",s:"Section 3.4",t:{h:["Item","Where to get it","Section"],r:[["Tools","Hand tools, cutting tools, etc.","Section 3.4"],["Equipment","Office equipment, heavy kitchen equipment, etc.","Section 3.4"],["Materials","Miscellaneous, training resources, etc.","Section 3.4"]]},tip:"The list is for 25 trainees. Adjust it to the actual number of trainees."},
+{n:"Training facilities",w:"Training Facilities",s:"Section 3.5",t:{h:["Space requirement","Size (m)","Area (sq. m.)","Total (sq. m.)"],r:[["Contextual learning area","6.25 x 8","50","50"],["Distance learning","12 x 10","120","120"],["Storage area","2 x 5","10","10"],["Learning resource area","2 x 8","16","16"],["Wash area / comfort room","4 x 4","16","16"],["Circulation area","5 x 5","25","25"]],f:["Total workshop area","","","237"],num:[1,2,3]}},
+{n:"Course delivery",w:"Training Delivery",s:"Section 3.2",c:"Copy the principles and modalities of training delivery.",ex:["The delivery of training shall adhere to the design of the curriculum.","Training delivery is learner-centered...","Training can be done in an actual workplace setting..."]},
+{n:"Assessment methods",w:"Methods of Assessment, under the Evidence Guide",s:"Section 2",c:"Copy the unique methods listed under Methods of Assessment in the Evidence Guide of each Unit of Competency (basic, common and core). Combine them into one list for the Course Design.",tip:"Go to Section 2 Competency Standards. For each UC, open the Evidence Guide, copy the Methods of Assessment, then combine all unique methods.",ex:["Demonstration with oral questioning","Interview","Written test","Third-party report","Case formulation","Life narrative inquiry","Standardized test","Role play","Case studies","Socio-drama and socio-metric methods","Sensitivity techniques","Portfolio","Observation","Practical demonstration"],exl:"Example of combined unique methods"},
+{n:"Trainer's qualifications",w:"Trainer's Qualifications",s:"Section 3.6",c:"Copy exactly what Section 3.6 says. Do not add, remove or change any requirement.",ex:["Must be a holder of National TVET Trainer Certificate (NTTC) Level I in Food Production (Bread and Patisserie) NC II","Must have at least three (3) years work experience in the bakery and pastry production industry, preferably with relevant trainings/seminars","Must be a holder of a Health Certificate issued within one (1) year and stating that the trainer is free of Hepatitis or any communicable disease","Must have an industry recognized National or International Food Safety and Hygiene Certification (Servsafe™ Certification or its equivalent)"]},
+{n:"Modules of instruction",w:"Competency Standards and Curriculum Design",s:"Section 2 and 3.1",t:{h:["Item","Where to get it","Section"],r:[["Unit of competency","UC title","Section 2"],["Module title","Verb of the UC, changed to -ing form","—"],["Module descriptor","Unit descriptor","Section 2"],["Nominal duration","Competency tables","Section 3.1"],["Learning outcomes","Elements","Section 2"],["Assessment criteria","Performance criteria","Section 2"],["Contents","Required knowledge + required skills","Section 2"],["Conditions","Resource implications","Section 2 (Evidence Guide)"],["Methodologies","Methodology column","Section 3.1"],["Assessment methods","Methods of assessment","Section 2 (Evidence Guide)"]]},tip:"For each module, copy only the assessment methods that apply to that specific UC."}
+];
+var K='f11-done',cur=0,done={};
+try{done=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
+function save(){try{localStorage.setItem(K,JSON.stringify(done))}catch(e){}}
+function cnt(){return Object.keys(done).filter(function(k){return done[k]}).length}
+function drawNav(){
+  var h='';
+  S.forEach(function(s,i){h+='<button data-i="'+i+'" class="'+(done[i]?'done':'')+'"'+(i===cur?' aria-current="step"':'')+'><span class="dot">'+(done[i]?'✓':i+1)+'</span>'+s.n+'</button>'});
+  nav.innerHTML=h;
+  var n=cnt();pt.textContent=n+' of '+S.length+' steps done';pb.style.width=(n/S.length*100)+'%';
+}
+function sec(cur){
+  var s=S[cur],h='<section class="s" id="s'+cur+'"><h2>'+(cur+1)+'. '+s.n+'</h2><div class="src"><span>Find it in <b>'+s.w+'</b></span><span class="pill">'+s.s+'</span></div>';
+  if(s.c)h+='<p>'+s.c+'</p>';
+  if(s.list){h+='<ul class="plain" style="margin-top:10px">'+s.list.map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul>'}
+  if(s.t){var t=s.t,num=s.num||[];h+='<div class="tw"><table><thead><tr>'+t.h.map(function(x,i){return'<th'+(num.indexOf(i)>-1?' class="r"':'')+'>'+x+'</th>'}).join('')+'</tr></thead><tbody>'+t.r.map(function(r){return'<tr>'+r.map(function(x,i){return'<td'+(num.indexOf(i)>-1?' class="r"':'')+'>'+x+'</td>'}).join('')+'</tr>'}).join('')+'</tbody>'+(s.f?'<tfoot><tr>'+s.f.map(function(x,i){return'<td'+(num.indexOf(i)>-1?' class="r"':'')+'>'+x+'</td>'}).join('')+'</tr></tfoot>':'')+'</table></div>'}
+  if(s.ex){h+='<div class="ex"><div class="l">'+(s.exl||'Example')+'</div>'+(s.ex.length>1?'<ul>'+s.ex.map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul>':s.ex[0])+'</div>'}
+  if(s.tip)h+='<div class="tip"><b>Tip:</b> '+s.tip+'</div>';
+  h+='<div class="acts"><button class="btn'+(done[cur]?' ok':'')+'" data-d="'+cur+'">'+(done[cur]?'Done ✓':'Mark as done')+'</button></div></section>';
+  return h;
+}
+function drawMain(){var h='';S.forEach(function(s,i){h+=sec(i)});main.innerHTML=h}
+function draw(){drawNav();drawMain()}
+function go(i){var e=document.getElementById('s'+i);if(e)e.scrollIntoView({block:'start'})}
+nav.addEventListener('click',function(e){var b=e.target.closest('button');if(b)go(+b.dataset.i)});
+main.addEventListener('click',function(e){var b=e.target.closest('[data-d]');if(!b)return;var i=+b.dataset.d;done[i]=!done[i];save();b.className='btn'+(done[i]?' ok':'');b.textContent=done[i]?'Done ✓':'Mark as done';drawNav()});
+rs.onclick=function(){done={};save();draw()};
+window.addEventListener('scroll',function(){var a=0;S.forEach(function(s,i){var e=document.getElementById('s'+i);if(e&&e.getBoundingClientRect().top<140)a=i});if(a!==cur){cur=a;var bs=nav.children;for(var j=0;j<bs.length;j++){if(j===a)bs[j].setAttribute('aria-current','step');else bs[j].removeAttribute('aria-current')}}});
+draw();
+var m=(location.hash||'').match(/\d+/);if(m&&+m[0]>=1&&+m[0]<=S.length)go(+m[0]-1);
+</script>
+</body>
+</html>
